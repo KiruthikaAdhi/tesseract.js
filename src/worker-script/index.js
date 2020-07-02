@@ -124,11 +124,11 @@ const loadLanguage = async ({
           res.reject(err.toString());
         }
       }
-      TessModule.FS.writeFile(`${dataPath || '.'}/${lang}.traineddata`, data);
+      TessModule.FS.writeFile(`${dataPath || '/tmp'}/${lang}.traineddata`, data);
     }
 
     if (['write', 'refresh', undefined].includes(cacheMethod)) {
-      await adapter.writeCache(`${cachePath || '.'}/${lang}.traineddata`, data);
+      await adapter.writeCache(`${cachePath || '/tmp'}/${lang}.traineddata`, data);
     }
 
     return Promise.resolve(data);
@@ -181,7 +181,7 @@ const initialize = ({
       api.End();
     }
     api = new TessModule.TessBaseAPI();
-    api.Init(null, langs, oem);
+    api.Init('/tmp', langs, oem);
     params = defaultParams;
     setParameters({ payload: { params } });
     res.progress({
